@@ -20,7 +20,9 @@ void Game::Init(HWND hWnd)
 	SetViewport();
 
 	CreateGeometry();
+	CreateVS();
 	CreateInputLayout();
+	CreatePS();
 }
 
 void Game::Update()
@@ -30,6 +32,35 @@ void Game::Update()
 void Game::Render()
 {
 	RenderBegin();
+
+	// IA
+	{
+		uint32 stride = sizeof(Vertex);
+		uint32 offset = 0;
+		_deviceContext->IASetVertexBuffers(0, 1, _vertexBuffer.GetAddressOf(), &stride, &offset);
+		_deviceContext->IASetInputLayout(_inputLayout.Get());
+		_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	}
+
+	// VS
+	{
+		_deviceContext->VSSetShader(_vertexShader.Get(), nullptr, 0);
+	}
+
+	// RS
+	{
+
+	}
+
+	// PS
+	{
+		_deviceContext->PSSetShader(_pixelShader.Get(), nullptr, 0);
+	}
+
+	// OM
+	{
+		_deviceContext->Draw(_vertices.size(), 0);
+	}
 
 	RenderEnd();
 }
@@ -147,7 +178,7 @@ void Game::CreateInputLayout()
 
 	const int32 count = sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC);
 
-	//_device->CreateInputLayout(layout, 2, 
+	_device->CreateInputLayout(layout, count, _vsBlob->GetBufferPointer(), _vsBlob->GetBufferSize(), _inputLayout.GetAddressOf());
 }
 
 void Game::CreateVS()

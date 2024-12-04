@@ -43,6 +43,7 @@ private:
 
 	vector<Vertex> _vertices;
 	ComPtr<ID3D11Buffer> _vertexBuffer = nullptr;
+	ComPtr<ID3D11InputLayout> _inputLayout = nullptr;
 
 	// VS
 	ComPtr<ID3D11VertexShader> _vertexShader = nullptr;
