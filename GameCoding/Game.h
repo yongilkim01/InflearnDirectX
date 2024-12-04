@@ -17,6 +17,9 @@ private:
 	void CreateRenderTargetView();
 	void SetViewport();
 
+	void CreateGeometry();
+	void CreateInputLayout();
+
 	void RenderBegin();
 	void RenderEnd();
 
@@ -28,9 +31,12 @@ private:
 	ComPtr<ID3D11DeviceContext> _deviceContext = nullptr;
 	ComPtr<IDXGISwapChain> _swapChain = nullptr;
 
-	ComPtr<ID3D11RenderTargetView> _renderTargetView;
+	ComPtr<ID3D11RenderTargetView> _renderTargetView = nullptr;
 
 	D3D11_VIEWPORT _viewport = { 0 };
 	float _clearColor[4] = { 0.5f, 0.5f, 0.5f, 0.5f };
+
+	vector<Vertex> _vertices;
+	ComPtr<ID3D11Buffer> _vertexBuffer = nullptr;
 };
 

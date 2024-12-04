@@ -18,6 +18,9 @@ void Game::Init(HWND hWnd)
 	CreateDeviceAndSwapChain();
 	CreateRenderTargetView();
 	SetViewport();
+
+	CreateGeometry();
+	CreateInputLayout();
 }
 
 void Game::Update()
@@ -105,4 +108,35 @@ void Game::SetViewport()
 	_viewport.Height = static_cast<float>(_height);
 	_viewport.MinDepth = 0.f;
 	_viewport.MaxDepth = 1.f;
+}
+
+void Game::CreateGeometry()
+{
+	_vertices.resize(3);
+
+	_vertices[0].position = Vec3(-0.5f, -0.5f, 0.f);
+	_vertices[0].color = Color(1.f, 0.f, 0.f, 1.f);
+
+	_vertices[1].position = Vec3(0.f, 0.5f, 0.f);
+	_vertices[1].color = Color(1.f, 0.f, 0.f, 1.f);
+
+	_vertices[2].position = Vec3(0.5f, -0.5f, 0.f);
+	_vertices[2].color = Color(1.f, 0.f, 0.f, 1.f);
+
+	D3D11_BUFFER_DESC desc;
+	ZeroMemory(&desc, sizeof(desc));
+
+	desc.Usage = D3D11_USAGE_IMMUTABLE;
+	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	desc.ByteWidth = (uint32)(sizeof(Vertex) * _vertices.size());
+
+	D3D11_SUBRESOURCE_DATA data;
+	ZeroMemory(&data, sizeof(data));
+	data.pSysMem = _vertices.data();
+
+	_device->CreateBuffer(&desc, &data, _vertexBuffer.GetAddressOf());
+}
+
+void Game::CreateInputLayout()
+{
 }
