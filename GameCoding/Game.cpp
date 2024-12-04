@@ -149,3 +149,42 @@ void Game::CreateInputLayout()
 
 	//_device->CreateInputLayout(layout, 2, 
 }
+
+void Game::CreateVS()
+{
+	LoadShaderFromFile(L"Default.hlsl", "VS", "vs_5_0", _vsBlob);
+	HRESULT hr = _device->CreateVertexShader(_vsBlob->GetBufferPointer(), 
+											 _vsBlob->GetBufferSize(), 
+											 nullptr, 
+											 _vertexShader.GetAddressOf());
+	CHECK(hr);
+}
+
+void Game::CreatePS()
+{
+	LoadShaderFromFile(L"Default.hlsl", "PS", "ps_5_0", _psBlob);
+	HRESULT hr = _device->CreatePixelShader(_psBlob->GetBufferPointer(),
+											_psBlob->GetBufferSize(),
+											nullptr,
+											_pixelShader.GetAddressOf());
+	CHECK(hr);
+}
+
+void Game::LoadShaderFromFile(const wstring& path, const string& name, const string& version, ComPtr<ID3DBlob>& blob)
+{
+	const uint32 compileFlag = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+
+	HRESULT hr = ::D3DCompileFromFile(
+		path.c_str(),
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,
+		name.c_str(),
+		version.c_str(),
+		compileFlag,
+		0,
+		blob.GetAddressOf(),
+		nullptr
+	);
+
+	CHECK(hr);
+}
