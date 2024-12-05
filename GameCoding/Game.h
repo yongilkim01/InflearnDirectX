@@ -23,6 +23,8 @@ private:
 	void CreateVS();
 	void CreatePS();
 
+	void CreateSRV();
+
 	void LoadShaderFromFile(const wstring& path, const string& name, const string& version, ComPtr<ID3DBlob>& blob);
 	
 	void RenderBegin();
@@ -39,7 +41,7 @@ private:
 	ComPtr<ID3D11RenderTargetView> _renderTargetView = nullptr;
 
 	D3D11_VIEWPORT _viewport = { 0 };
-	float _clearColor[4] = { 0.5f, 0.5f, 0.5f, 0.5f };
+	float _clearColor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 	vector<Vertex> _vertices;
 	vector<uint32> _indicies;
@@ -54,5 +56,7 @@ private:
 	// PS
 	ComPtr<ID3D11PixelShader> _pixelShader = nullptr;
 	ComPtr<ID3DBlob> _psBlob = nullptr;
+
+	ComPtr<ID3D11ShaderResourceView> _shaderResourceView = nullptr;
 };
 
