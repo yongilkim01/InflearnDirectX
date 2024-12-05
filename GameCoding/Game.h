@@ -42,7 +42,9 @@ private:
 	float _clearColor[4] = { 0.5f, 0.5f, 0.5f, 0.5f };
 
 	vector<Vertex> _vertices;
+	vector<uint32> _indicies;
 	ComPtr<ID3D11Buffer> _vertexBuffer = nullptr;
+	ComPtr<ID3D11Buffer> _indexBuffer = nullptr;
 	ComPtr<ID3D11InputLayout> _inputLayout = nullptr;
 
 	// VS
